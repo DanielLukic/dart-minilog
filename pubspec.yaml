@@ -1,0 +1,17 @@
+name: dart_minilog
+description: Basic and minimalistic log system. Few log levels only. No fancy log sinks. Either print, file, or
+  a custom sink that your code provides.
+version: 0.0.1
+homepage: https://github.com/DanielLukic/dart-minilog
+repository: https://github.com/DanielLukic/dart-minilog
+topics: [ log, logging, logger ]
+
+environment:
+  sdk: ^3.3.1
+
+dependencies:
+  ansi: ^0.4.2
+
+dev_dependencies:
+  lints: ^3.0.0
+  test: ^1.24.0
