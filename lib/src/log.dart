@@ -3,8 +3,9 @@ import 'dart:io';
 import 'package:ansi/ansi.dart';
 
 /// Create a *synchronous*(!) file sink.
-fileSink(String filename) {
+fileSink(String filename, {bool truncate = false}) {
   final file = File(filename);
+  if (truncate && file.existsSync()) file.deleteSync();
   var parent = Directory(filename).parent;
   if (!parent.existsSync()) parent.createSync();
   final sink = file.openWrite();
