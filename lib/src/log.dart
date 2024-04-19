@@ -3,13 +3,19 @@ import 'dart:io';
 import 'package:ansi/ansi.dart';
 
 /// Create a *synchronous*(!) file sink.
-fileSink(String filename, {bool truncate = false}) {
+fileSink(String filename, {bool truncate = false, int maxSizeBytes = 1000000}) {
   final file = File(filename);
   if (truncate && file.existsSync()) file.deleteSync();
   var parent = Directory(filename).parent;
   if (!parent.existsSync()) parent.createSync();
-  final sink = file.openWrite();
-  return (e) => sink.writeln(e);
+  return (e) {
+    final file = File(filename);
+    if (!file.existsSync()) file.createSync();
+    final ts = DateTime.timestamp().toIso8601String();
+    final msg = "$ts $e\n";
+    file.writeAsString(msg, mode: FileMode.append);
+    if (file.lengthSync() > maxSizeBytes) file.renameSync("$filename.bak");
+  };
 }
 
 /// Define where log messages should go. This can be anything that is a
